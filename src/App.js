@@ -1,25 +1,86 @@
-import logo from './logo.svg';
 import './App.css';
+import './styles/main.css';
+import './styles/cards.css';
 
-function App() {
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { AuthProvider, RequireAuth } from './context/Auth';
+
+import Layout from './components/Layout';
+
+import HomePage from './pages/Home';
+import DashboardPage from './pages/Dashboard';
+import LoginPage from './pages/Login';
+
+import AccountPage from './pages/Account';
+import InfoPage from './pages/Info';
+import FinancialAccountsPage from './pages/FinancialAccounts';
+
+import NotFoundPage from './pages/NotFound';
+import UnauthorizedPage from './pages/Unauthorized';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    // loader: rootLoader,
+    children: [
+      {
+        path: '',
+        element: <HomePage />,
+        // loader: teamLoader,
+      },
+      {
+        path: 'login',
+        element: <LoginPage />,
+        // loader: teamLoader,
+      },
+      {
+        path: 'unauthorized',
+        element: <UnauthorizedPage />,
+        // loader: teamLoader,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+        // loader: teamLoader,
+      },
+      {
+        element: <RequireAuth />,
+        children: [
+          {
+            path: '/dashboard',
+            element: <DashboardPage />,
+          },
+          {
+            path: '/account',
+            element: <AccountPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to='/account/info' replace />
+              },
+              {
+                path: 'info',
+                element: <InfoPage />,
+              },
+              {
+                path: 'accounts',
+                element: <FinancialAccountsPage />,
+              },
+            ],
+          },
+        ]
+      },
+    ],
+  },
+]);
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
-}
+};
 
 export default App;

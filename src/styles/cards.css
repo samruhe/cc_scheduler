@@ -1,0 +1,10 @@
+.card {
+  background: #EEEEEE;
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 500;
+}
