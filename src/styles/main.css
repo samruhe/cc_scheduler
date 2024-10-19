@@ -12,6 +12,7 @@ input {
   font-size: 16px;
   padding-top: 4px;
   padding-bottom: 4px;
+  outline: none;
 }
 
 .main-btn {

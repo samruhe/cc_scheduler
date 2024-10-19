@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/Auth';
+import { logout, useAuth } from '../context/Auth';
 
 const Account = () => {
   const location = useLocation();
@@ -13,11 +13,15 @@ const Account = () => {
     setCurrentPath(location.pathname);
   }, [location]);
 
-  const logout = useCallback(
-    (e) => {
+  const handleLogout = useCallback(async(e) => {
       e.preventDefault();
-      setUser(null);
-      navigate('/');
+
+      const success = await logout();
+
+      if (success) {
+        setUser(null);
+        navigate('/');
+      }
     },
     [setUser, navigate]
   );
@@ -40,7 +44,7 @@ const Account = () => {
           <Link key={item.path} to={item.path} className='link header-link' style={currentPath === item.path ? { color: 'black' } : { color: '#808080' }}>{item.name}</Link>
         ))}
 
-        <button onClick={logout} className='link-btn' style={{ fontSize: '20px', color: '#840000', marginTop: '36px' }}>Logout</button>
+        <button onClick={handleLogout} className='link-btn' style={{ fontSize: '20px', color: '#840000', marginTop: '36px' }}>Logout</button>
       </div>
 
       <Outlet />

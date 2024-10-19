@@ -1,14 +1,23 @@
 import { useState } from 'react';
 import { useAuth } from '../context/Auth';
 
+import { updateProfile } from '../api/user';
+
 const Info = () => {
   const { user, setUser } = useAuth();
 
-  const [name, setName] = useState(user.name || '');
+  const [name, setName] = useState(user.full_name || '');
   const [email, setEmail] = useState(user.email);
   const [phone, setPhone] = useState(user.phone || '');
   const save = (e) => {
     e.preventDefault();
+
+    updateProfile({
+      name,
+    })
+      .then((updatedUser) => {
+        if (updatedUser) setUser(updatedUser);
+      });
   }
 
   return (

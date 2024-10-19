@@ -10,6 +10,8 @@ import Layout from './components/Layout';
 import HomePage from './pages/Home';
 import DashboardPage from './pages/Dashboard';
 import LoginPage from './pages/Login';
+import CheckEmailPage from './pages/CheckEmail';
+import VerifyPage from './pages/Verify';
 
 import AccountPage from './pages/Account';
 import InfoPage from './pages/Info';
@@ -33,6 +35,15 @@ const router = createBrowserRouter([
         path: 'login',
         element: <LoginPage />,
         // loader: teamLoader,
+      },
+      {
+        path: 'login/checkemail',
+        element: <CheckEmailPage />,
+        // loader: teamLoader,
+      },
+      {
+        path: 'login/verify',
+        element: <VerifyPage />,
       },
       {
         path: 'unauthorized',
